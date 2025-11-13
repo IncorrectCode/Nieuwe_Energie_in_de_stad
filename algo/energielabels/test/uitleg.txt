@@ -1,0 +1,30 @@
+Uitleg — welke rijen en hoe het werkt (kort)
+
+Welke rijen worden gebruikt voor training?
+Alle rijen in alle sheets die een bekend energielabel hebben (kolom herkend als energielabel of kolomnaam met substring energ of label). In het script markeert dat train_df (_has_label == True). Minimum 10 rijen vereist; anders stopt script en vraagt om meer gelabelde voorbeelden.
+
+Welke rijen worden voorspeld?
+Alle rijen zonder energielabel worden samengevoegd in predict_df en daarop wordt het getrainde model toegepast. De voorspelde waarde wordt teruggezet in dezelfde kolom (col_label) en de regel krijgt _predicted = True.
+
+Features gebruikt:
+Het script zoekt automatisch naar kolommen met (ruwe) namen zoals:
+
+bouwjaar (bouw, bouwjaar),
+
+daktype (dak, daktype),
+
+m2 (m2, m², oppervlakte, woonopper).
+Als jouw kolomnamen anders heten, kun je die 4 variabelen bovenin (of de detectiefunctie) handmatig instellen.
+
+Preprocessing en model:
+
+Numerieke features: median-imputatie.
+
+Categorische features: missing-value fill en one-hot encoding.
+
+Model: RandomForestClassifier (200 bomen).
+
+Validatie: 3-fold cross-validation + holdout-test (rapportage van accuracy & classificatierapport).
+
+Herbruikbaarheid / nieuwe data:
+Het getrainde pipeline-object wordt opgeslagen als energielabel_model.pkl. De functie predict_missing_labels_from_file(new_file_path) (in hetzelfde script) laadt dat model en voorspelt labels voor nieuw ingelezen bestanden (Excel). Zo kun je later eenvoudig nieuwe uploads voorzien van voorspellingen.
