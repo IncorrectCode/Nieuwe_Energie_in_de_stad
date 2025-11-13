@@ -4,7 +4,7 @@ from lazypredict.Supervised import LazyClassifier
 from sklearn.ensemble import RandomForestClassifier
 
 # === Dataset inladen ===
-df = pd.read_csv("dataset_utrecht_opgemaakt.csv", index_col=0, header=0)
+df = pd.read_csv("dataset_utrecht_opgemaakt.csv", header=0)
 
 # === Targetkolom controleren ===
 target_column = "energielabel"
@@ -36,7 +36,7 @@ print("Probleemtype: Classificatie")
 clf = LazyClassifier(verbose=0, ignore_warnings=True, custom_metric=None)
 models, predictions = clf.fit(X_train, X_test, y_train, y_test)
 
-# === Resultaten bekijken ===
+# === Resultaten bekijken ===cf
 print("\n=== Model ranking ===")
 print(models.sort_values(by="Accuracy", ascending=False).head(10))
 
