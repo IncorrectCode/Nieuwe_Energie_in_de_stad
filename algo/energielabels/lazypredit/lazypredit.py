@@ -4,25 +4,10 @@ from lazypredict.Supervised import LazyClassifier
 from sklearn.ensemble import RandomForestClassifier
 
 # === Dataset inladen ===
-df = pd.read_csv("dataset_utrecht_opgemaakt.csv", index_col=0)
-
-# === Kolommen hernoemen (optioneel) ===
-df = df.rename(columns={
-    "Unnamed: 10": "Energielabel",
-    "79": "Huisnummer",
-    "89": "Oppervlakte",
-    "2000": "Bouwjaar",
-    "0": "Verwarming_m2",
-    "2": "AantalVerdiepingen",
-    "5.90801203250885": "Hoogte",
-    "74.5999984741211": "X_Coordinaat",
-    "52.40999984741211": "Y_Coordinaat",
-    "52.38999938964844": "Breedte",
-    "122.37999725341797": "Lengte",
-})
+df = pd.read_csv("dataset_utrecht_opgemaakt.csv", index_col=0, header=0)
 
 # === Targetkolom controleren ===
-target_column = "Energielabel"
+target_column = "energielabel"
 if target_column not in df.columns:
     raise ValueError(f"Kolom '{target_column}' bestaat niet in je dataset!")
 
