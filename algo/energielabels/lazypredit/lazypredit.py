@@ -15,6 +15,12 @@ df = df.dropna(subset=[target_column])
 
 # === Alleen numerieke features gebruiken ===
 X = df.select_dtypes(include=["number"]).copy()
+
+# Kolommen uitsluiten die niet relevant zijn
+kolommen_weg = ["huisnummer"]
+X = X.drop(columns=[c for c in kolommen_weg if c in X.columns], errors="ignore")
+
+# Targetvariabele
 y = df[target_column]
 
 if X.empty:
