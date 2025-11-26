@@ -1,0 +1,32 @@
+1️⃣ PCA (PC1) – de grootste driver van de score (70%)
+
+PCA kijkt naar alle kenmerken van een woning tegelijk:
+
+bouwjaar, daktype, oppervlakte, aantal dakvlakken, hellingshoek, energielabel, etc.
+
+Het berekent de eerste hoofcomponent (PC1): dit is de richting waarin de woningen het meest van elkaar verschillen.
+
+Interpretatie in jouw context: woningen die “meer potentieel voor verduurzaming” hebben (oudere woningen, slechte isolatie, grote daken, etc.) krijgen een hoger PC1-score.
+
+PC1 wordt genormaliseerd naar 0–100%, dus hoger PC1 → hoger percentage.
+
+
+2️⃣ KMeans clustering – extra structuur (30%)
+
+KMeans verdeelt alle woningen in bijvoorbeeld 4 clusters (kan je aanpassen).
+
+Binnen elk cluster zitten woningen die vergelijkbaar zijn qua kenmerken.
+
+We berekenen per cluster het gemiddelde van de PC1-score.
+
+Clusters met hogere gemiddelde PC1 krijgen een hogere cluster-prioriteit.
+
+Daarna normaliseren we deze clusterprioriteit naar 0–100%.
+
+
+3️⃣ Samenvoegen (70% PC1 + 30% cluster)
+| Type woning                       | PC1-score | Cluster-score | Eindscore       |
+| --------------------------------- | --------- | ------------- | --------------- |
+| Oud, slecht geïsoleerd, groot dak | Hoog      | Hoog          | Hoog (80–100%)  |
+| Nieuw, goed geïsoleerd, klein dak | Laag      | Laag          | Laag (0–20%)    |
+| Gemiddeld                         | Gemiddeld | Gemiddeld     | Midden (40–60%) |
