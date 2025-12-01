@@ -44,7 +44,7 @@ df = df.dropna(subset=[target_column])
 # === Kolommen uitsluiten ===
 kolommen_weg = [
     "huisnummer", "oppervlakte_scheidingmuur", "identificatie", "geom",
-    "huisletter", "straatnaam", "woonplaats", "verspringt_met_buren"
+    "huisletter", "straatnaam", "woonplaats", "verspringt_met_buren","prioriteitsscore"
 ]
 
 # === Features voorbereiden ===
