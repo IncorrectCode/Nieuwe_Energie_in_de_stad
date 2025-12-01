@@ -85,7 +85,7 @@ conn = psycopg2.connect(
 cursor = conn.cursor()
 
 # === BULK UPDATE voorbereiden ===
-update_data = [(float(row.prioriteitsscore), str(row.identificatie))
+update_data = [(round(float(row.prioriteitsscore), 2), str(row.identificatie))
                for _, row in df.iterrows()]
 
 update_query = """
