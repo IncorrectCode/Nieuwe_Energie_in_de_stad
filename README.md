@@ -1,149 +1,150 @@
-🎯 Energy Label Prediction & Priority Scoring Pipeline
+# 🎯 Energy Label Prediction & Priority Scoring Pipeline
 
 Dit project bevat twee Python-scripts voor het analyseren van woningdata uit PostgreSQL, het voorspellen van energielabels en het berekenen van een prioriteitsscore ten behoeve van besluitvorming.
 
-📂 Bestanden
-🔹 1. random_forest_classifier.py
+---
 
-Script dat:
+## 📂 Bestanden
 
-data uit PostgreSQL inlaadt
+### 1️⃣ random_forest_classifier.py
+- Laadt data uit PostgreSQL  
+- Traindt een Random Forest Classifier  
+- Voorspelt ontbrekende energielabels  
+- Schrijft voorspellingen terug naar de database  
 
-een Random Forest Classifier traint
+### 2️⃣ prioriteitsscore_definitief.py
+- Laadt data uit PostgreSQL  
+- Encodeert en schaalt features  
+- Voert PCA uit  
+- Clustert met K-Means  
+- Berekent gecombineerde prioriteitsscore  
+- Schrijft resultaten terug naar de database  
 
-ontbrekende energielabels voorspelt
+---
 
-de voorspelde labels terugschrijft naar de database
+## 🚀 Functionaliteitsoverzicht
 
-🔹 2. prioriteitsscore_definitief.py
+| Functionaliteit                 | Script                          |
+|---------------------------------|----------------------------------|
+| Voorspellen van energielabels   | random_forest_classifier.py      |
+| Berekenen van prioriteitsscore  | prioriteitsscore_definitief.py   |
+| Database ophalen & updaten      | Beide                            |
+| Dimensionality reduction (PCA)  | prioriteitsscore_definitief.py   |
+| Clustering (K-Means)            | prioriteitsscore_definitief.py   |
 
-Script dat:
+---
 
-data uit PostgreSQL inlaadt
+## ⚙️ Installatie
 
-features encodeert & schaalt
-
-PCA toepast
-
-clustering uitvoert (K-Means)
-
-een gecombineerde prioriteitsscore (PC1 + clustergewicht) berekent
-
-de score terugschrijft naar PostgreSQL
-
-
-Functionaliteit samengevat
-| Functionaliteit            | Bestandsnaam                     |
-| -------------------------- | -------------------------------- |
-| Voorspellen energielabels  | `random_forest_classifier.py`    |
-| Berekenen prioriteitsscore | `prioriteitsscore_definitief.py` |
-| Database ophalen & updaten | beide                            |
-| Machine learning model     | Random Forest                    |
-| Dimensionality reduction   | PCA                              |
-| Clustering                 | K-Means                          |
-
-
-Installatie
-1️⃣ Clone de repository
+### 1️⃣ Repository clonen
+```bash
 git clone <repository-url>
-cd <repo-map>
+cd <repository-map>
+```
 
-2️⃣ Installeer vereisten
+### 2️⃣ (Aanbevolen) Virtual environment
+```bash
+python -m venv venv
+source venv/bin/activate   # macOS / Linux
+venv\Scripts\activate      # Windows
+```
+
+### 3️⃣ Dependencies installeren
+```bash
 pip install -r requirements.txt
+```
 
-📦 Benodigde libraries
+---
 
-pandas
+## 📦 Vereiste libraries
 
-numpy
+- pandas  
+- numpy  
+- scikit-learn  
+- psycopg2  
+- scipy  
 
-scikit-learn
+---
 
-psycopg2
+## 🔐 Database-configuratie
 
-scipy
+⚠️ Gebruik **geen hardcoded wachtwoorden** in GitHub.
 
-Tip: werk in een virtual environment
+Gebruik een `.env` bestand:
 
-🔐 Belangrijk: database-gegevens
+```
+DB_HOST=
+DB_PORT=
+DB_NAME=
+DB_USER=
+DB_PASS=
+```
 
-De scripts bevatten database-connecties.
+👉 Voeg `.env` toe aan `.gitignore`.
 
-👉 Plaats GEEN echte wachtwoorden op GitHub.
+---
 
-Aanbevolen aanpak:
+## ▶️ Gebruik
 
-✔ gebruik .env file
-✔ laad met python-dotenv
-✔ voeg .env toe aan .gitignore
-
-Voorbeeld:
-
-DB_HOST=...
-DB_NAME=...
-DB_USER=...
-DB_PASS=...
-
-▶️ Uitvoeren
-Energielabels voorspellen
+### Energielabels voorspellen
+```bash
 python random_forest_classifier.py
+```
 
-Prioriteitsscore berekenen
+### Prioriteitsscore berekenen
+```bash
 python prioriteitsscore_definitief.py
+```
 
-📊 Metrics & validatie
+---
 
-Het prioriteitsscore-script berekent o.a.:
+## 🧠 Modelinformatie
 
-Spearman rank correlation
+### Random Forest energielabelmodel
+- n_estimators = 500  
+- bootstrap = True  
+- max_features = log2  
+- train/test split = 80/20  
 
-Silhouette score
+### Prioriteitsscoremodel
+- StandardScaler  
+- PCA (1 component → PC1)  
+- K-Means (k = 4)  
+- Eindscore:
+```
+0.7 * PC1 + 0.3 * clustergewicht
+```
 
-Deze worden in de console geprint voor kwaliteitscontrole.
+---
 
-🧠 Modeldetails
-Random Forest (energielabels)
+## 📊 Validatiemetrics
 
-500 trees
+Worden automatisch weergegeven in de console:
 
-bootstrap sampling
+- Spearman rank correlation  
+- Silhouette score  
 
-log2 feature selection
+---
 
-train/test split 80/20
+## 🛡️ Disclaimer
 
-Prioriteitsscore
+Dit project werkt met:
 
-PCA (1 component → PC1 score)
+- woningdata  
+- databaseverbindingen  
 
-schaaltransformatie (StandardScaler)
+Let op:
 
-K-Means clustering (k = 4)
+- privacy
+- databeveiliging
+- credentialbeheer
 
-combinatie:
+---
 
-70% PC1 + 30% clustergewicht
+## 🧭 Mogelijke uitbreidingen
 
-🛡️ Disclaimer
-
-Dit project verwerkt:
-
-woningdata
-
-databaseverbindingen
-
-🔸 Let op privacy
-🔸 Versleutel wachtwoorden
-🔸 Publiceer geen gevoelige data
-
-🧭 Toekomstige uitbreidingen
-
-API-endpoint toevoegen
-
-Docker-container
-
-Model opslaan naar .pkl
-
-Automatische ML-pipeline (MLflow)
-
-Dash/Streamlit dashboard
+- Docker container  
+- Model persistentie (.pkl)  
+- API-endpoint  
+- Dashboard (Streamlit/Dash)  
+- MLflow integratie
