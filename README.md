@@ -1,95 +1,149 @@
-# 🌇 Nieuwe Energie in de Stad
+🎯 Energy Label Prediction & Priority Scoring Pipeline
 
-**Nieuwe Energie in de Stad** is een Python-project gericht op het analyseren en visualiseren van energiegerelateerde data binnen stedelijke omgevingen. Het project gebruikt datasets over gebouwen, dakvlakken en woningcorporaties om inzichten te verkrijgen die relevant zijn voor de energietransitie in de stad.
+Dit project bevat twee Python-scripts voor het analyseren van woningdata uit PostgreSQL, het voorspellen van energielabels en het berekenen van een prioriteitsscore ten behoeve van besluitvorming.
 
----
+📂 Bestanden
+🔹 1. random_forest_classifier.py
 
-## 🎯 Doel van het project
+Script dat:
 
-Het doel van dit project is:
-- Het verkennen en analyseren van stedelijke energie- en gebouwdata  
-- Het inzichtelijk maken van potentiële energie-opwekking (bijv. via dakvlakken)  
-- Het ondersteunen van datagedreven besluitvorming rond duurzame energie in de stad  
+data uit PostgreSQL inlaadt
 
----
+een Random Forest Classifier traint
 
-## 🧠 Functionaliteiten
+ontbrekende energielabels voorspelt
 
-- 📊 **Data-analyse met Python (pandas)**
-- 📈 **Visualisaties van energie- en gebouwdata**
-- 🗂️ **Logische mappenstructuur** voor verschillende datathema’s
-- 📁 **Ruwe datasets** (Excel) als basis voor analyse
+de voorspelde labels terugschrijft naar de database
 
----
+🔹 2. prioriteitsscore_definitief.py
 
-## 📁 Projectstructuur
+Script dat:
 
-```plaintext
-Nieuwe_Energie_in_de_stad/
-├── algo/                # Algoritmes en berekeningen
-├── corporaties/         # Data en scripts m.b.t. woningcorporaties
-├── dakvlakken/          # Analyse van dakoppervlakken
-├── explore/             # Exploratieve data-analyse
-├── databim ruwe data.xlsx
-├── import pandas as pd.py
-├── plot code.py
-├── .gitattributes
+data uit PostgreSQL inlaadt
+
+features encodeert & schaalt
+
+PCA toepast
+
+clustering uitvoert (K-Means)
+
+een gecombineerde prioriteitsscore (PC1 + clustergewicht) berekent
+
+de score terugschrijft naar PostgreSQL
 
 
-⚙️ Installatie
-
-Clone de repository
-
-git clone https://github.com/IncorrectCode/Nieuwe_Energie_in_de_stad.git
-cd Nieuwe_Energie_in_de_stad
-
-
-(Optioneel) Maak een virtuele omgeving
-
-python -m venv venv
-source venv/bin/activate   # macOS/Linux
-venv\Scripts\activate      # Windows
+Functionaliteit samengevat
+| Functionaliteit            | Bestandsnaam                     |
+| -------------------------- | -------------------------------- |
+| Voorspellen energielabels  | `random_forest_classifier.py`    |
+| Berekenen prioriteitsscore | `prioriteitsscore_definitief.py` |
+| Database ophalen & updaten | beide                            |
+| Machine learning model     | Random Forest                    |
+| Dimensionality reduction   | PCA                              |
+| Clustering                 | K-Means                          |
 
 
-Installeer benodigde libraries
+Installatie
+1️⃣ Clone de repository
+git clone <repository-url>
+cd <repo-map>
 
-pip install pandas matplotlib openpyxl
+2️⃣ Installeer vereisten
+pip install -r requirements.txt
 
+📦 Benodigde libraries
 
+pandas
 
-▶️ Gebruik
-Data inladen
-import pandas as pd
+numpy
 
-df = pd.read_excel("databim ruwe data.xlsx")
-print(df.head())
+scikit-learn
 
-Visualisaties genereren
-python "plot code.py"
+psycopg2
 
+scipy
 
-Zorg ervoor dat de dataset zich in dezelfde map bevindt als het script.
+Tip: werk in een virtual environment
 
-🧩 Voorbeeld visualisatiecode
-import matplotlib.pyplot as plt
+🔐 Belangrijk: database-gegevens
 
-df.plot()
-plt.title("Energieanalyse")
-plt.show()
+De scripts bevatten database-connecties.
 
-🤝 Bijdragen
+👉 Plaats GEEN echte wachtwoorden op GitHub.
 
-Bijdragen zijn welkom:
+Aanbevolen aanpak:
 
-Fork deze repository
+✔ gebruik .env file
+✔ laad met python-dotenv
+✔ voeg .env toe aan .gitignore
 
-Maak een nieuwe branch (feature/naam)
+Voorbeeld:
 
-Commit je wijzigingen
+DB_HOST=...
+DB_NAME=...
+DB_USER=...
+DB_PASS=...
 
-Open een Pull Request
+▶️ Uitvoeren
+Energielabels voorspellen
+python random_forest_classifier.py
 
-📄 Licentie
+Prioriteitsscore berekenen
+python prioriteitsscore_definitief.py
 
-Dit project heeft momenteel geen expliciete licentie.
-Gebruik en aanpassing is toegestaan voor educatieve doeleinden.
+📊 Metrics & validatie
+
+Het prioriteitsscore-script berekent o.a.:
+
+Spearman rank correlation
+
+Silhouette score
+
+Deze worden in de console geprint voor kwaliteitscontrole.
+
+🧠 Modeldetails
+Random Forest (energielabels)
+
+500 trees
+
+bootstrap sampling
+
+log2 feature selection
+
+train/test split 80/20
+
+Prioriteitsscore
+
+PCA (1 component → PC1 score)
+
+schaaltransformatie (StandardScaler)
+
+K-Means clustering (k = 4)
+
+combinatie:
+
+70% PC1 + 30% clustergewicht
+
+🛡️ Disclaimer
+
+Dit project verwerkt:
+
+woningdata
+
+databaseverbindingen
+
+🔸 Let op privacy
+🔸 Versleutel wachtwoorden
+🔸 Publiceer geen gevoelige data
+
+🧭 Toekomstige uitbreidingen
+
+API-endpoint toevoegen
+
+Docker-container
+
+Model opslaan naar .pkl
+
+Automatische ML-pipeline (MLflow)
+
+Dash/Streamlit dashboard
